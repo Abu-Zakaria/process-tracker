@@ -1,10 +1,10 @@
 package capture_processes
 
 import (
-	"encoding/json"
 	"log"
-	"os"
 	"time"
+
+	"github.com/Abu-Zakaria/process-tracker/pkg/json_data_handler"
 )
 
 type Capture struct {
@@ -29,14 +29,21 @@ func SaveMemData() {
 		TotalNumOfProcesses: len(mems),
 	}
 
-	data, err := json.Marshal(capture)
+	old_data := []Capture{}
+	captures := []Capture{}
+
+	err := json_data_handler.ReadJSON("mem_data.json", &old_data)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("Couldn't read mem_data.json before saving new data to it! Error Message -", err)
+	} else {
+		captures = old_data
 	}
 
-	err = os.WriteFile("mem_data.json", data, 0644)
+	captures = append(captures, capture)
+
+	err = json_data_handler.SaveJSON(captures, "mem_data.json")
 	if err != nil {
-		log.Println("Not able to save data to mem_data.json")
+		log.Fatal("Couldn't save data to mem_data.json: ", err)
 	}
 
 	log.Println("Data saved to mem_data.json")
