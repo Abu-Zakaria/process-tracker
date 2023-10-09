@@ -2,6 +2,7 @@ package capture_processes
 
 import (
 	"log"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -13,6 +14,19 @@ type MemoryStatus struct {
 }
 
 func GetMemory(process Process) uint64 {
+	switch os.Getenv("GOOS") {
+	case "darwin":
+		return getMemoryDarwin(process)
+	case "linux":
+		return getMemoryLinux(process)
+	case "windows":
+		return getMemoryWindows(process)
+	default:
+		return 0
+	}
+}
+
+func getMemoryDarwin(process Process) uint64 {
 	cmd := exec.Command("ps", "-p", strconv.Itoa(process.Pid), "-o", "rss=")
 	var output strings.Builder
 	cmd.Stdout = &output
@@ -27,4 +41,14 @@ func GetMemory(process Process) uint64 {
 	}
 
 	return memory
+}
+
+func getMemoryLinux(process Process) uint64 {
+	// TODO
+	return 0
+}
+
+func getMemoryWindows(process Process) uint64 {
+	// TODO
+	return 0
 }
