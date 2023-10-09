@@ -7,24 +7,20 @@ import (
 	"github.com/Abu-Zakaria/process-tracker/pkg/json_data_handler"
 )
 
-const (
-	memory_data_file_path = "./mem_data.json"
-)
-
 type Capture struct {
 	Time                string         `json:"time"`
 	MemoryStatuses      []MemoryStatus `json:"memory_statuses"`
 	TotalNumOfProcesses int            `json:"total_num_of_processes"`
 }
 
-func Run() {
+func Run(mem_data_file_path string) {
 	for {
-		SaveMemData()
+		SaveMemData(mem_data_file_path)
 		time.Sleep(30 * time.Second)
 	}
 }
 
-func SaveMemData() {
+func SaveMemData(mem_data_file_path string) {
 	mems := CaptureMems()
 
 	capture := Capture{
@@ -36,7 +32,7 @@ func SaveMemData() {
 	old_data := []Capture{}
 	captures := []Capture{}
 
-	err := json_data_handler.ReadJSON(memory_data_file_path, &old_data)
+	err := json_data_handler.ReadJSON(mem_data_file_path, &old_data)
 	if err != nil {
 		log.Println("Couldn't read mem_data.json before saving new data to it! Error Message -", err)
 	} else {
