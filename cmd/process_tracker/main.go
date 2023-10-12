@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Abu-Zakaria/process-tracker/pkg/capture_processes"
+	"github.com/Abu-Zakaria/process-tracker/internal/capture_processes"
 )
 
 const (

@@ -1,5 +1,5 @@
 PROCESS_TRACKER=process_tracker
-REPORT_GENERATOR=report_generator
+TOP_TEN_REPORT=top_ten_report
 HOSTOS=$(shell uname -s | awk '{print tolower($0)}')
 
 build_main:
@@ -7,22 +7,22 @@ build_main:
 	GOARCH=amd64 GOOS=linux go build -o ./build/${PROCESS_TRACKER}-linux ./cmd/process_tracker/main.go
 	GOARCH=amd64 GOOS=windows go build -o ./build/${PROCESS_TRACKER}-windows ./cmd/process_tracker/main.go
 
-build_report_generator:
-	GOARCH=arm64 GOOS=darwin go build -o ./build/${REPORT_GENERATOR}-darwin ./cmd/report_generator/main.go
-	GOARCH=amd64 GOOS=linux go build -o ./build/${REPORT_GENERATOR}-linux ./cmd/report_generator/main.go
-	GOARCH=amd64 GOOS=windows go build -o ./build/${REPORT_GENERATOR}-windows ./cmd/report_generator/main.go
+build_top_ten_report:
+	GOARCH=arm64 GOOS=darwin go build -o ./build/${TOP_TEN_REPORT}-darwin ./cmd/top_ten_report/main.go
+	GOARCH=amd64 GOOS=linux go build -o ./build/${TOP_TEN_REPORT}-linux ./cmd/top_ten_report/main.go
+	GOARCH=amd64 GOOS=windows go build -o ./build/${TOP_TEN_REPORT}-windows ./cmd/top_ten_report/main.go
 
 run: build_main
-	./build/${BINARY_NAME}-${HOSTOS}
+	GOOS=${HOSTOS} ./build/${PROCESS_TRACKER}-${HOSTOS}
 
-run_report_generator: build_report_generator
-	./build/${REPORT_GENERATOR}-${HOSTOS}
+run_top_ten_report: build_top_ten_report
+	GOOS=${HOSTOS} ./build/${TOP_TEN_REPORT}-${HOSTOS}
 
 clean:
 	go clean
-	rm ./build/${BINARY_NAME}-darwin
-	rm ./build/${BINARY_NAME}-linux
-	rm ./build/${BINARY_NAME}-windows
-	rm ./build/${REPORT_GENERATOR}-darwin
-	rm ./build/${REPORT_GENERATOR}-linux
-	rm ./build/${REPORT_GENERATOR}-windows
+	rm ./build/${PROCESS_TRACKER}-darwin
+	rm ./build/${PROCESS_TRACKER}-linux
+	rm ./build/${PROCESS_TRACKER}-windows
+	rm ./build/${TOP_TEN_REPORT}-darwin
+	rm ./build/${TOP_TEN_REPORT}-linux
+	rm ./build/${TOP_TEN_REPORT}-windows
