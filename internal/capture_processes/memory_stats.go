@@ -49,6 +49,21 @@ func getMemoryLinux(process Process) uint64 {
 }
 
 func getMemoryWindows(process Process) uint64 {
-	// TODO
+	cmd := exec.Command("wmic", "process where processid=", strconv.Itoa(process.Pid), "get WorkingSetSize")
+	var output strings.Builder
+	cmd.Stdout = &output
+
+	cmd.Run()
+
+	if len(output.String()) > 1 {
+		output_split := strings.Split(output.String(), "\n")
+		memory, err := strconv.ParseUint(output_split[1], 10, 64)
+		if err != nil {
+			log.Println("Couldn't parse the memory consumption for the process:", process.Pid)
+		}
+
+		return memory
+	}
+
 	return 0
 }
