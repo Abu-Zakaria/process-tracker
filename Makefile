@@ -3,9 +3,9 @@ TOP_TEN_REPORT=top_ten_report
 HOSTOS=$(shell uname -s | awk '{print tolower($0)}')
 
 build_main:
-	GOARCH=arm64 GOOS=darwin go build -o ./build/${PROCESS_TRACKER}-darwin ./cmd/process_tracker/main.go
-	GOARCH=amd64 GOOS=linux go build -o ./build/${PROCESS_TRACKER}-linux ./cmd/process_tracker/main.go
-	GOARCH=amd64 GOOS=windows go build -o ./build/${PROCESS_TRACKER}-windows ./cmd/process_tracker/main.go
+	GOARCH=arm64 GOOS=darwin go build -ldflags="-X github.com/Abu-Zakaria/process-tracker/internal/capture_processes.OS=darwin" -o ./build/${PROCESS_TRACKER}-darwin ./cmd/process_tracker/main.go
+	GOARCH=amd64 GOOS=linux go build -ldflags="-X github.com/Abu-Zakaria/process-tracker/internal/capture_processes.OS=linux" -o ./build/${PROCESS_TRACKER}-linux ./cmd/process_tracker/main.go
+	GOARCH=amd64 GOOS=windows go build -ldflags="-X github.com/Abu-Zakaria/process-tracker/internal/capture_processes.OS=windows" -o ./build/${PROCESS_TRACKER}-windows ./cmd/process_tracker/main.go
 
 build_top_ten_report:
 	GOARCH=arm64 GOOS=darwin go build -o ./build/${TOP_TEN_REPORT}-darwin ./cmd/top_ten_report/main.go

@@ -2,7 +2,6 @@ package capture_processes
 
 import (
 	"log"
-	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -43,7 +42,7 @@ func GetAllProcesses() []Process {
 }
 
 func GetExecutable(pid int) string {
-	switch os.Getenv("GOOS") {
+	switch OS {
 	case "darwin":
 		return getExecutableDarwin(pid)
 	case "linux":

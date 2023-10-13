@@ -2,7 +2,6 @@ package capture_processes
 
 import (
 	"log"
-	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -14,7 +13,7 @@ type MemoryStatus struct {
 }
 
 func GetMemory(process Process) uint64 {
-	switch os.Getenv("GOOS") {
+	switch OS {
 	case "darwin":
 		return getMemoryDarwin(process)
 	case "linux":

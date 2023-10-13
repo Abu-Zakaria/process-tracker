@@ -7,6 +7,10 @@ import (
 	"github.com/Abu-Zakaria/process-tracker/pkg/json_data_handler"
 )
 
+var (
+	OS string
+)
+
 type Capture struct {
 	Time                string         `json:"time"`
 	MemoryStatuses      []MemoryStatus `json:"memory_statuses"`
