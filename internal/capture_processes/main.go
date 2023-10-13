@@ -1,7 +1,7 @@
 package capture_processes
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"github.com/Abu-Zakaria/process-tracker/pkg/json_data_handler"
@@ -38,19 +38,19 @@ func SaveMemData(mem_data_file_path string) {
 
 	err := json_data_handler.ReadJSON(mem_data_file_path, &old_data)
 	if err != nil {
-		log.Println("Couldn't read mem_data.json before saving new data to it! Error Message -", err)
+		fmt.Println("Couldn't find any existing data file. Creating new data file...")
 	} else {
 		captures = old_data
 	}
 
 	captures = append(captures, capture)
 
-	err = json_data_handler.SaveJSON(captures, "mem_data.json")
+	err = json_data_handler.SaveJSON(captures, mem_data_file_path)
 	if err != nil {
-		log.Fatal("Couldn't save data to mem_data.json: ", err)
+		fmt.Println("Couldn't save process memory data to", mem_data_file_path)
 	}
 
-	log.Println("Data saved to mem_data.json")
+	fmt.Println("Data saved to mem_data.json")
 }
 
 func CaptureMems() []MemoryStatus {
