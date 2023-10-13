@@ -36,8 +36,8 @@ func PrintMemStatuses(data []capture_processes.MemoryStatus) {
 }
 
 func Truncate(s string) string {
-	if len(s) > 100 {
-		return s[:40] + "..." + s[len(s)-40:]
+	if len(s) > 50 {
+		return s[:7] + "..." + s[len(s)-40:]
 	}
 	return s
 }
